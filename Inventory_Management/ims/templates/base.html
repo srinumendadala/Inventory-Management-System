@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.5.0/semantic.min.js">
+    <title>Inventory Management</title>
+</head>
+
+<body   style="background-color:rgb(191, 186, 186);">
+
+    <div style="background-color: rgb(8, 160, 248); color:white;"><header><h4 style="margin-left:250px;">Inventory Management System</h4></header></div>
+    <div class="container">
+
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="{% url 'addCustomer' %}">Customer</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="{% url 'addCategory' %}">Category</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="{% url 'addBrand' %}">Brand</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'supplier' %}">Supplier</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'products' %}">Product</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'purchase' %}">Purchase</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'manage' %}">Orders</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                  <li class="nav-item" mr-3>
+                    <a href="javascript: {document.getElementById('logout').submit()}" class="nav-link">
+                        <i class="fa fa-power-off"></i>Logout
+                      </a>
+                      <form action="{% url 'logout' %}" id="logout" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden">
+                      </form>
+                  </li>
+                  {% else %}
+<!--                        <li class="nav-item">-->
+<!--                          <a class="nav-link" href="{% url 'register' %}">Register</a>-->
+<!--                        </li>-->
+                        <li class="nav-item">
+                          <a class="nav-link" href="{% url 'login' %}">Login</a>
+                        </li>
+                  {% endif %}
+                  <!-- /Log out  button -->
+                </ul>
+                </div>
+                <div class="dropdown">
+                       <button class="btn btn-secondary dropdown-toggle badge badge-pill" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Administrator
+                       </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#">Logout</a>
+                  </div>
+                </div>
+            </nav>
+    </div><br>
+     {% block content %}
+
+{% endblock %}
+</body>
+
+</html>

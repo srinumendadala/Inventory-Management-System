@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container">
+            <div class="card">
+
+                    <div class="card-header"><h2 class="card-title"><b>Purchase List</b>
+                    <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary offset-8" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <i class="fa fa-plus-square" aria-hidden="true"></i>Add Purchase
+                        </button></h2>
+                    </div>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel"><i class="fa fa-plus" aria-hidden="true"></i>Add Purchase</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action=""  method="POST">
+                                        {% csrf_token %}
+<!--                                        <div class="mb-3">-->
+<!--                                        <label for="name" class="form-label">Name</label>-->
+<!--                                        <input type="text" class="form-control" name="name">-->
+<!--                                        </div>-->
+<!--                                        <div class="mb-3">-->
+<!--                                        <label for="mobile" class="form-label">Mobile</label>-->
+<!--                                        <input type="phone"  name="mobile" class="form-control">-->
+<!--                                        </div>-->
+<!--                                        <div class="mb-3">-->
+<!--                                            <label for="balance" class="form-label">Balance</label>-->
+<!--                                            <input type="text" name="balance" class="form-control">-->
+<!--                                        </div>-->
+<!--                                        <div class="mb-3">-->
+<!--                                            <label for="address" class="form-label">Address</label>-->
+<!--                                            <input type="text" name="address" class="form-control">-->
+<!--                                        </div class="text-right">-->
+                                        {{ form }}
+                                        <br>
+                                        <button type="submit" class="btn btn-primary">Save</button>
+                                        <button type="submit" class="btn btn-secondary">close</button>
+                                    </form>
+                                </div>
+                            </div>
+                            </div>
+                        </div><br>
+               <div class="card-body">
+                        <div class="offset-8">
+                            <form class="d-flex offset-3" role="search" method="get" action="">Search:
+                                <input class="form-control-sm" type="search" aria-label="Search" name="query">
+                            </form>
+                        </div> <br>
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Product</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">supplier</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% if purc %}
+                                {% for x in purc %}
+                        <tr>
+
+                                    <th scope="row">{{x.id}}</th>
+                                    <td>{{x.product_name}}</td>
+                                    <td>{{x.quantity}}</td>
+                                    <td>{{x.name}}</td>
+                                    <td><div class="btn btn-danger"><a href="{% url 'delpurch' x.id %}"><i class="fa fa-trash" aria-hidden="true"></i></a></div>
+                                        <div class="btn btn-warning"><i class="fa fa-edit" aria-hidden="true"></i></div>
+                                    </td>
+                                {% endfor %}
+                            {% endif %}
+                        </tr>
+                        </tbody>
+                    </table>
+                   <div class="row m-5">
+                     <div class="col-md-12 m-3">
+
+                         {% if purc.has_other_pages %}
+                             <ul class="pagination justify-content-end">
+                                 <!-- Here we are creating previous button navigation starts here --->
+                                 {% if purc.has_previous %}
+
+                                  <li class="page-item">
+                                      <a href="?page={{ purc.previous_page_number }}" class="page-link">Previous</a>
+                                  </li>
+                                 {% else %}
+                                    <li class="page-item disabled">
+                                      <a href="?page=1" class="page-link">Previous</a>
+                                    </li>
+                                 {% endif %}
+                                 <!-- Here we are creating previous button navigation Ends here --->
+                                 <! -- here we are creating page number to display page navigation starts -->
+                                 {% for i in purc.paginator.page_range %}
+                                    {% if purc.number == i %}
+                                      <li class="page-item active">
+                                          <a href="?page={{ i }}" class="page-link">{{ i }}</a>
+                                      </li>
+                                    {% else %}
+                                       <li class="page-item">
+                                          <a href="?page={{ i }}" class="page-link">{{ i }}</a>
+                                       </li>
+                                    {% endif %}
+                                 {% endfor %}
+
+                                 <! -- here we are creating page number to display page navigation ends -->
+
+                                 <!-- Here we are creating Next button navigation starts here --->
+                                 {% if purc.has_next %}
+                                     <li class="page-item">
+                                         <a href="?page={{ purc.next_page_number }}" class="page-link">Next</a>
+                                     </li>
+                                 {% else %}
+                                     <li class="page-item disabled">
+                                         <a href="?page={{ purc.paginator.number_page }}" class="page-link">Next</a>
+                                     </li>
+                                 {% endif %}
+                                 <!-- Here we are creating Next button navigation Ends here --->
+
+                             </ul>
+                         {% endif %}
+                     </div>
+                 </div>
+                 <!--- Pagination ends -->
+               </div>
+            </div>
+    </div>
+{% endblock %}

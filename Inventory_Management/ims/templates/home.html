@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container">
+            <div class="card">
+
+                    <div class="card-header"><h2 class="card-title"><b>Inventory</b>
+
+                    </div>
+               <div class="card-body">
+                        <div class="offset-8">
+                            <form class="d-flex offset-3" role="search" method="get" action="">Search:
+                                <input class="form-control-sm" type="search" aria-label="Search" name="query">
+                            </form>
+                        </div> <br>
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Product/Code</th>
+                            <th scope="col">Starting Inventory</th>
+                            <th scope="col">Inventory Received</th>
+                            <th scope="col">Inventory shipped</th>
+                            <th scope="col">Inventory in Hand</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                            {% for x in products %}
+
+                            {% for y in purchase %}
+                        <tr>
+                            <th scope="row">{{x.id}}</th>
+                            <td>{{x.product_name}}/{{x.product_model}}</td>
+                            <td>{{x.quantity}}</td>
+                            <td>{{y.quantity}}</td>
+                            <td>x</td>
+                            <td>x</td>
+                                {% endfor %}
+
+                              {% endfor %}
+
+                        </tr>
+                        </tbody>
+                    </table>
+                 <div class="row m-5">
+                     <div class="col-md-12 m-3">
+
+                         {% if cust.has_other_pages %}
+                             <ul class="pagination justify-content-end">
+                                 <!-- Here we are creating previous button navigation starts here --->
+                                 {% if cust.has_previous %}
+
+                                  <li class="page-item">
+                                      <a href="?page={{ cust.previous_page_number }}" class="page-link">Previous</a>
+                                  </li>
+                                 {% else %}
+                                    <li class="page-item disabled">
+                                      <a href="?page=1" class="page-link">Previous</a>
+                                    </li>
+                                 {% endif %}
+                                 <!-- Here we are creating previous button navigation Ends here --->
+                                 <! -- here we are creating page number to display page navigation starts -->
+                                 {% for i in cust.paginator.page_range %}
+                                    {% if cust.number == i %}
+                                      <li class="page-item active">
+                                          <a href="?page={{ i }}" class="page-link">{{ i }}</a>
+                                      </li>
+                                    {% else %}
+                                       <li class="page-item">
+                                          <a href="?page={{ i }}" class="page-link">{{ i }}</a>
+                                       </li>
+                                    {% endif %}
+                                 {% endfor %}
+
+                                 <! -- here we are creating page number to display page navigation ends -->
+
+                                 <!-- Here we are creating Next button navigation starts here --->
+                                 {% if cust.has_next %}
+                                     <li class="page-item">
+                                         <a href="?page={{ cust.next_page_number }}" class="page-link">Next</a>
+                                     </li>
+                                 {% else %}
+                                     <li class="page-item disabled">
+                                         <a href="?page={{ cust.paginator.number_page }}" class="page-link">Next</a>
+                                     </li>
+                                 {% endif %}
+                                 <!-- Here we are creating Next button navigation Ends here --->
+
+                             </ul>
+                         {% endif %}
+                     </div>
+                 </div>
+                 <!--- Pagination ends -->
+               </div>
+            </div>
+    </div>
+{% endblock %}
